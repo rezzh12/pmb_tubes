@@ -1,6 +1,6 @@
 @extends('layouts.master')
-@section('title', 'Input Pendaftar')
-@section('judul', 'Input Pendaftar')
+@section('title', 'Edit Pendaftar')
+@section('judul', 'Edit Pendaftar')
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
@@ -9,13 +9,15 @@
                 <div class="card-header">Tambah Data Pendaftar</div>
 
                 <div class="card-body">
-                <form method="post" action="{{ route('admin.pendaftaran.submit') }}" enctype="multipart/form-data">
+                <form method="post" action="{{ route('admin.pendaftaran.update') }}" enctype="multipart/form-data">
+                    
                         @csrf
+                        @method('PATCH')
                         <div class="row">
                         <div class="col-md-6">
                         <div class="form-group">
                             <label for="NISN">NISN</label>
-                            <input type="number" class="form-control" name="NISN" id="NISN" required />
+                            <input type="number" class="form-control" name="NISN" id="NISN"  require readonly />
                         </div>
                         <div class="form-group">
                             <label for="nama">Nama Lengkap</label>
@@ -175,3 +177,46 @@
     </div>
 </div>
 @stop
+
+@section('js')
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+$(function() {
+            $(document).ready( function() {
+                let NISN = $(this).data('NISN');
+                $.ajax({
+                    type: "get",
+                    url: "{{ url('/admin/ajaxadmin/dataPendaftar') }}/" + NISN,
+                    dataType: 'json',
+                    success: function(res) {
+                        $('#NISN').val(res.NISN);
+                        $('#nama').val(res.nama);
+                    },
+                });
+            });
+        });
+
+        @if(session('status'))
+            Swal.fire({
+                title: 'Congratulations!',
+                text: "{{ session('status') }}",
+                icon: 'Success',
+                timer: 3000
+            })
+        @endif
+        @if($errors->any())
+            @php
+                $message = '';
+                foreach($errors->all() as $error)
+                {
+                    $message .= $error."<br/>";
+                }
+            @endphp
+            Swal.fire({
+                title: 'Error',
+                html: "{!! $message !!}",
+                icon: 'error',
+            })
+        @endif
+        </script>
+    @stop

@@ -44,7 +44,7 @@
         <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
                <li class="nav-item">
-                <a href="pendaftaran" class="nav-link active">
+                <a href="pendaftar" class="nav-link active">
                   <i class="far fa-address-book nav-icon"></i>
                   <p>Data Pendaftar</p>
                 </a>

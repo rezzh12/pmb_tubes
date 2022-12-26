@@ -5,11 +5,15 @@ use App\Models\pendaftaran;
 use App\Models\jadwal;
 use App\Models\pembayaran;
 use App\Models\program_studi;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\PendaftaranExport;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 use Session;
+use PDF;
 use Illuminate\Validation\ValidationException;
 
 class AdminController extends Controller
@@ -26,11 +30,42 @@ class AdminController extends Controller
         return view('home', compact('user'));
     }
 
-    public function pendaftaran()
+    public function view_pendaftar()
     {
         $user = Auth::user();
         $pendaftaran = Pendaftaran::all();
+        $jadwal = jadwal::all();
+        $program_studi = program_studi::all();
         return view('data_pendaftar', compact('user', 'pendaftaran'));
+    }
+    public function view_orangtua()
+    {
+        $user = Auth::user();
+        $pendaftaran = Pendaftaran::all();
+        return view('data_orangtua', compact('user', 'pendaftaran'));
+    }
+    public function view_sekolah()
+    {
+        $user = Auth::user();
+        $pendaftaran = Pendaftaran::all();
+        return view('data_sekolah', compact('user', 'pendaftaran'));
+    }
+    public function view_input()
+    {
+        $user = Auth::user();
+        $pendaftaran = Pendaftaran::all();
+        $program_studi = program_studi::all();
+        $jadwal = jadwal::all();
+        return view('input_daftar', compact('user', 'pendaftaran', 'program_studi', 'jadwal'));
+    }
+
+    public function view_edit($NISN)
+    {
+        $user = Auth::user();
+        $jadwal = jadwal::all();
+        $program_studi = program_studi::all();
+        $pendaftaran =  pendaftaran::where('NISN',$NISN)->get();
+        return view('edit_daftar', compact('user', 'pendaftaran','jadwal','program_studi'));
     }
 
     public function submit_pendaftar(Request $req)
@@ -57,6 +92,98 @@ class AdminController extends Controller
         'alamat_sekolah'=> 'required',
     ]);
     $Pendaftaran = new Pendaftaran;
+    $Pendaftaran->NISN = $req->get('NISN');
+    $Pendaftaran->nama = $req->get('nama');
+    $Pendaftaran->jenis_kelamin = $req->get('jenis_kelamin');
+    $Pendaftaran->agama = $req->get('agama');
+    $Pendaftaran->email = $req->get('email');
+    $Pendaftaran->no_hp = $req->get('no_hp');
+    $Pendaftaran->tempat_lahir = $req->get('tempat_lahir');
+    $Pendaftaran->tanggal_lahir = $req->get('tanggal_lahir');
+    $Pendaftaran->alamat = $req->get('alamat');
+    $Pendaftaran->gelombang = $req->get('gelombang');
+    $Pendaftaran->jurusan = $req->get('jurusan');
+    $Pendaftaran->nama_ayah = $req->get('nama_ayah');
+    $Pendaftaran->nama_ibu = $req->get('nama_ibu');
+    $Pendaftaran->pekerjaan_ayah = $req->get('pekerjaan_ayah');
+    $Pendaftaran->pekerjaan_Ibu = $req->get('pekerjaan_Ibu');
+    $Pendaftaran->no_kk = $req->get('no_kk');
+    $Pendaftaran->gaji = $req->get('gaji');
+    $Pendaftaran->tanggungan = $req->get('tanggungan','orang');
+    $Pendaftaran->asal_sekolah = $req->get('asal_sekolah');
+    $Pendaftaran->alamat_sekolah = $req->get('alamat_sekolah');
+    $Pendaftaran->status_pendaftaran = 'terdaftar';
+    $Pendaftaran->tgl_pendaftaran = now();
+    if($req->hasFile('pas_foto'))
+    {
+        $extension = $req->file('pas_foto')->extension();
+        $filename = 'pas_foto'.time().'.'.$extension;
+        $req->file('pas_foto')->storeAS('public/pas_foto', $filename);
+        $Pendaftaran->pas_foto = $filename;
+    }
+    if($req->hasFile('slip_gaji'))
+    {
+        $extension = $req->file('slip_gaji')->extension();
+        $filename = 'slip_gaji'.time().'.'.$extension;
+        $req->file('slip_gaji')->storeAS('public/slip_gaji', $filename);
+        $Pendaftaran->slip_gaji = $filename;
+    }
+    if($req->hasFile('nilai_raport'))
+    {
+        $extension = $req->file('nilai_raport')->extension();
+        $filename = 'nilai_raport'.time().'.'.$extension;
+        $req->file('nilai_raport')->storeAS('public/nilai_raport', $filename);
+        $Pendaftaran->nilai_raport = $filename;
+    }
+    if($req->hasFile('ijazah'))
+    {
+        $extension = $req->file('ijazah')->extension();
+        $filename = 'ijazah'.time().'.'.$extension;
+        $req->file('ijazah')->storeAS('public/ijazah', $filename);
+        $Pendaftaran->ijazah = $filename;
+    }
+    if($req->hasFile('prestasi'))
+    {
+        $extension = $req->file('prestasi')->extension();
+        $filename = 'prestasi'.time().'.'.$extension;
+        $req->file('prestasi')->storeAS('public/prestasi', $filename);
+        $Pendaftaran->prestasi = $filename;
+    }
+    $Pendaftaran->save();
+
+    Session::flash('status', 'Input data berhasil!!!');
+    return redirect()->route('admin.pendaftaran');
+    }
+
+    public function getDatapendaftar($NISN)
+    {
+        $pendaftaran =  pendaftaran::where('NISN',$NISN)->get();
+        return response()->json($Pendaftaran);
+    }
+
+    public function update_pendaftar(Request $req)
+    { $validate = $req->validate([
+        'NISN'=> 'required|max:255',
+        'nama'=> 'required',
+        'jenis_kelamin'=> 'required',
+        'agama'=> 'required',
+        'email'=> 'required',
+        'no_hp'=> 'required',
+        'tempat_lahir'=> 'required',
+        'tanggal_lahir'=> 'required',
+        'alamat'=> 'required',
+        'gelombang'=> 'required',
+        'jurusan'=> 'required',
+        'nama_ayah'=> 'required',
+        'nama_ibu'=> 'required',
+        'pekerjaan_ayah'=> 'required',
+        'pekerjaan_Ibu'=> 'required',
+        'no_kk'=> 'required',
+        'gaji'=> 'required',
+        'tanggungan'=> 'required',
+        'asal_sekolah'=> 'required',
+        'alamat_sekolah'=> 'required',
+    ]);
     $Pendaftaran->NISN = $req->get('NISN');
     $Pendaftaran->nama = $req->get('nama');
     $Pendaftaran->jenis_kelamin = $req->get('jenis_kelamin');
@@ -116,17 +243,21 @@ class AdminController extends Controller
     }
     $Pendaftaran->save();
 
-    Session::flash('status', 'Input data berhasil!!!');
-    return redirect()->back();
+    Session::flash('status', 'Ubah data berhasil!!!');
+    return redirect()->route('admin.pendaftaran');
     }
-    public function view_input()
+
+    public function delete_pendaftar($NISN)
     {
-        $user = Auth::user();
-        $pendaftaran = Pendaftaran::all();
-        $program_studi = program_studi::all();
-        $jadwal = jadwal::all();
-        return view('input_daftar', compact('user', 'pendaftaran', 'program_studi', 'jadwal'));
-    }
+        $pendaftaran = pendaftaran::where('NISN',$NISN)->delete();
+        
+
+        Session::flash('status', 'Hapus data berhasil!!!');
+    
+    return redirect()->route('admin.pendaftaran');
+}
+
+
 
 
     public function jadwal()
@@ -304,4 +435,14 @@ public function prodi()
     return redirect()->route('admin.prodi');
 }
 
+public function print_bukti($NISN){
+    $pendaftaran =  pendaftaran::with('pembayaran')->where('NISN',$NISN)->get();
+    $pdf = PDF::loadview('print_bukti',['pendaftarans'=>$pendaftaran]);
+    return $pdf->download('bukti_pendaftaran.pdf');
+}
+
+public function export()
+{
+    return Excel::download(new PendaftaranExport, 'pendaftaran.xlsx');
+}
 }

@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('jadwals', function (Blueprint $table) {
             $table->id();
-           
+          
             $table->timestamps();
         });
     }

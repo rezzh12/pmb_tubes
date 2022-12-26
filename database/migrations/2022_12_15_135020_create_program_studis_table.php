@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('program_studis', function (Blueprint $table) {
             $table->id();
-           
+
             $table->timestamps();
         });
     }

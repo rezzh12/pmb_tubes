@@ -185,6 +185,8 @@ return [
         /*
          * Package Service Providers...
          */
+        Barryvdh\DomPDF\ServiceProvider::class,
+        Maatwebsite\Excel\ExcelServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -212,6 +214,8 @@ return [
         // 'ExampleClass' => App\Example\ExampleClass::class,
         'FORM' => 'Collective\Html\FormFacade',
     'HTML' => 'Collective\Html\HtmlFacade',
+    'PDF' => Barryvdh\DomPDF\Facade::class,
+    'Excel' => Maatwebsite\Excel\Facades\Excel::class,
     ])->toArray(),
 
 ];
