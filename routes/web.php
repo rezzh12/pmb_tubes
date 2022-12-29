@@ -19,9 +19,8 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('admin/home',
-    [App\Http\Controllers\AdminController::class, 'index'])->name('admin.home')->middleware('is_admin');
+    [App\Http\Controllers\AdminController::class, 'index'])->name('admin.pendaftar.jadwal.pembayaran.prodi')->middleware('is_admin');
 
 Route::get('admin/tambah_pendaftar',
     [App\Http\Controllers\AdminController::class, 'view_input'])->name('admin.pendaftaran.jadwal.program_studi')->middleware('is_admin');
@@ -60,7 +59,7 @@ Route::post('admin/jadwal/delete/{id}',
 
 Route::get('admin/pembayaran',
     [App\Http\Controllers\AdminController::class, 'pembayaran'])->name('admin.pembayaran')->middleware('is_admin');
-    Route::post('admin/pembayaran', 
+ Route::post('admin/pembayaran', 
     [App\Http\Controllers\AdminController::class, 'submit_pembayaran'])->name('admin.pembayaran.submit')->middleware('is_admin');
 Route::patch('admin/pembayaran', 
     [App\Http\Controllers\AdminController::class, 'update_pembayaran'])->name('admin.pembayaran.update')->middleware('is_admin');
@@ -68,6 +67,18 @@ Route::patch('admin/pembayaran',
     [App\Http\Controllers\AdminController::class, 'getDatapembayaran']);
 Route::post('admin/pembayaran/delete/{id}', 
     [App\Http\Controllers\AdminController::class, 'delete_pembayaran'])->name('admin.pembayaran.delete')->middleware('is_admin');
+
+Route::get('admin/pengumuman',
+    [App\Http\Controllers\AdminController::class, 'pengumuman'])->name('admin.pengumuman.program_studi')->middleware('is_admin');
+Route::post('admin/pengumuman', 
+    [App\Http\Controllers\AdminController::class, 'submit_pengumuman'])->name('admin.pengumuman.submit')->middleware('is_admin');
+Route::patch('admin/pengumuman', 
+    [App\Http\Controllers\AdminController::class, 'update_pengumuman'])->name('admin.pengumuman.update')->middleware('is_admin');
+ Route::get('admin/ajaxadmin/dataPengumuman/{id}', 
+    [App\Http\Controllers\AdminController::class, 'getDatapengumuman']);
+Route::post('admin/pengumuman/delete/{id}', 
+    [App\Http\Controllers\AdminController::class, 'delete_pengumuman'])->name('admin.pengumuman.delete')->middleware('is_admin');
+
 
  Route::get('admin/prodi',
     [App\Http\Controllers\AdminController::class, 'prodi'])->name('admin.prodi')->middleware('is_admin');
@@ -79,4 +90,11 @@ Route::patch('admin/prodi',
     [App\Http\Controllers\AdminController::class, 'getDataprodi']);
 Route::post('admin/prodi/delete/{id}', 
     [App\Http\Controllers\AdminController::class, 'delete_prodi'])->name('admin.prodi.delete')->middleware('is_admin');
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::get('/daftar',
+    [App\Http\Controllers\HomeController::class, 'view_input'])->name('admin.pendaftaran.jadwal.program_studi');
+Route::post('/daftar', 
+    [App\Http\Controllers\HomeController::class, 'submit_pendaftar'])->name('admin.pendaftaran.submit');
 

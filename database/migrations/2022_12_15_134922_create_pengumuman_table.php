@@ -13,12 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('pengumuman', function (Blueprint $table) {
+        Schema::create('pengumumen', function (Blueprint $table) {
             $table->id();
-            
+            $table->char('NISN',25);
+            $table->string('status',100);
+            $table->string('prodi',100);
             $table->timestamps();
 
-           
+            $table->foreign('NISN')
+                  ->references('NISN')
+                  ->on('pendaftarans');
         });
     }
 

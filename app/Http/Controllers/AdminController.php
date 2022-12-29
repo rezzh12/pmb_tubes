@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\pendaftaran;
 use App\Models\jadwal;
 use App\Models\pembayaran;
+use App\Models\pengumuman;
 use App\Models\program_studi;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\PendaftaranExport;
@@ -27,7 +28,11 @@ class AdminController extends Controller
     public function index()
     {
         $user = Auth::user();
-        return view('home', compact('user'));
+        $pendaftar = pendaftaran::count();
+        $jadwal = jadwal::count();
+        $pembayaran = pembayaran::count();
+        $prodi = program_studi::count();
+        return view('home', compact('user', 'pendaftar','jadwal','pembayaran','prodi'));
     }
 
     public function view_pendaftar()
@@ -433,6 +438,66 @@ public function prodi()
         Session::flash('status', 'Hapus data berhasil!!!');
     
     return redirect()->route('admin.prodi');
+}
+
+public function pengumuman()
+    {
+        $user = Auth::user();
+        $pengumuman =  pengumuman::all();
+        $program_studi = program_studi::all();
+        return view('data_pengumuman', compact('user', 'pengumuman','program_studi'));
+    }
+
+    public function submit_pengumuman(Request $req)
+    { $validate = $req->validate([
+        'NISN'=> 'required|max:255',
+        'status'=> 'required',
+        'prodi'=> 'required',
+       
+    ]);
+    $pengumuman = new pengumuman;
+    $pengumuman->NISN = $req->get('NISN');
+    $pengumuman->status = $req->get('status');
+    $pengumuman->prodi = $req->get('prodi');
+    $pengumuman->save();
+
+    Session::flash('status', 'Input data berhasil!!!');
+    return redirect()->route('admin.pengumuman.program_studi');
+    }
+
+    public function getDatapengumuman($id)
+    {
+        $pengumuman = pengumuman::find($id);
+        return response()->json($pengumuman);
+    }
+
+    public function update_pengumuman(Request $req)
+    { 
+        $pengumuman= pengumuman::find($req->get('id'));
+         $validate = $req->validate([
+            'NISN'=> 'required|max:255',
+            'status'=> 'required',
+            'prodi'=> 'required',
+           
+        ]);
+        $pengumuman->NISN = $req->get('NISN');
+        $pengumuman->status = $req->get('status');
+        $pengumuman->prodi = $req->get('prodi');
+        $pengumuman->save();
+    
+        Session::flash('status', 'Ubah data berhasil!!!');
+        return redirect()->route('admin.pengumuman.program_studi');
+       
+    }
+
+    public function delete_pengumuman($id)
+    {
+        $pengumuman = pengumuman::find($id);
+        $pengumuman->delete();
+
+        Session::flash('status', 'Hapus data berhasil!!!');
+    
+    return redirect()->route('admin.pengumuman.program_studi');
 }
 
 public function print_bukti($NISN){

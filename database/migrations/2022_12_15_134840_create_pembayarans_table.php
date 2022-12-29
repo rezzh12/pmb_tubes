@@ -15,7 +15,10 @@ return new class extends Migration
     {
         Schema::create('pembayarans', function (Blueprint $table) {
             $table->id();
-           
+            $table->string('no_kwitansi',100);
+            $table->string('status_pembayaran',30);
+            $table->date('tgl_pembayaran');
+            $table->char('NISN',25);
             $table->timestamps();
 
            

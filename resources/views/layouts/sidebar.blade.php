@@ -65,7 +65,7 @@
               </li>
 
               <li class="nav-item">
-                <a href="pembayaran" class="nav-link active">
+                <a href="pengumuman" class="nav-link active">
                   <i class="far fa-bell nav-icon"></i>
                   <p>Data Pengumuman</p>
                 </a>
