@@ -503,7 +503,7 @@ public function pengumuman()
 public function print_bukti($NISN){
     $pendaftaran =  pendaftaran::with('pembayaran')->where('NISN',$NISN)->get();
     $pdf = PDF::loadview('print_bukti',['pendaftarans'=>$pendaftaran]);
-    return $pdf->download('bukti_pendaftaran.pdf');
+    return $pdf->stream('bukti_pendaftaran.pdf');
 }
 
 public function export()

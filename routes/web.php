@@ -93,6 +93,10 @@ Route::post('admin/prodi/delete/{id}',
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+Route::get('/pendaftaran/{id}',
+    [App\Http\Controllers\HomeController::class, 'view_pendaftaran'])->name('pendaftaran');
+ Route::get('pendaftaran/print_bukti/{id}', 
+    [App\Http\Controllers\HomeController::class, 'print_bukti'])->name('print.pendaftaran');
 Route::get('/daftar',
     [App\Http\Controllers\HomeController::class, 'view_input'])->name('admin.pendaftaran.jadwal.program_studi');
 Route::post('/daftar', 

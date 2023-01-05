@@ -167,6 +167,7 @@
 
 
             <div class="modal-footer">
+            <input type="hidden" name="id_login" id="id_login" value="{{ Auth::user()->id }}" />
             <a href="{{ URL::previous() }}" class="btn btn-default">Kembali</a>
                     <button type="submit" class="btn btn-primary">Kirim</button>
                     </form>

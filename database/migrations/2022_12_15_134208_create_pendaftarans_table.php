@@ -38,6 +38,7 @@ return new class extends Migration
             $table->string('ijazah',255);
             $table->string('prestasi',255);
             $table->string('status_pendaftaran',50);
+            $table->integer('id_login');
             $table->date('tgl_pendaftaran');
             $table->string('email',100);
             $table->string('no_hp',55);

@@ -70,6 +70,7 @@ class HomeController extends Controller
         'tanggungan'=> 'required',
         'asal_sekolah'=> 'required',
         'alamat_sekolah'=> 'required',
+        'id_login'=> 'required',
     ]);
     $Pendaftaran = new Pendaftaran;
     $Pendaftaran->NISN = $req->get('NISN');
@@ -93,6 +94,7 @@ class HomeController extends Controller
     $Pendaftaran->asal_sekolah = $req->get('asal_sekolah');
     $Pendaftaran->alamat_sekolah = $req->get('alamat_sekolah');
     $Pendaftaran->status_pendaftaran = 'terdaftar';
+    $Pendaftaran->id_login = $req->get('id_login');
     $Pendaftaran->tgl_pendaftaran = now();
     if($req->hasFile('pas_foto'))
     {
@@ -133,5 +135,17 @@ class HomeController extends Controller
 
     Session::flash('status', 'Input data berhasil!!!');
     return redirect()->route('home');
+    }
+
+    public function view_pendaftaran($id){
+        $user = Auth::user();
+        $pendaftaran =  pendaftaran::with('pembayaran')->where('id_login',$id)->get();
+        return view('pendaftaran', compact('user', 'pendaftaran'));
+       
+    }
+    public function print_bukti($id){
+        $pendaftaran =  pendaftaran::with('pembayaran')->where('id_login',$id)->get();
+        $pdf = PDF::loadview('print_bukti',['pendaftarans'=>$pendaftaran]);
+        return $pdf->stream('bukti_pendaftaran.pdf');
     }
 }
