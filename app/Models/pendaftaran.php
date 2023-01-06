@@ -4,50 +4,18 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class pendaftaran extends Model
-{// {`id_pendaftaran` int(25) NOT NULL,
-//     `id_user` varchar(15) NOT NULL,
-//     `nisn` varchar(20) NOT NULL,
-//     `nik` varchar(20) NOT NULL,
-//     `nama_siswa` varchar(100) NOT NULL,
-//     `jenis_kelamin` varchar(25) NOT NULL,
-//     `pas_foto` varchar(500) NOT NULL,
-//     `tempat_lahir` varchar(25) NOT NULL,
-//     `tanggal_lahir` date NOT NULL,
-//     `agama` varchar(25) NOT NULL,
-//     `alamat` varchar(250) NOT NULL,
-//     `email` varchar(100) NOT NULL,
-//     `nohp` varchar(15) NOT NULL,
-//     `gelombang` varchar(500) NOT NULL,
-//     `tahun_masuk` year(4) NOT NULL,
-//     `pil1` varchar(100) NOT NULL,
-//     `pil2` varchar(100) NOT NULL,
-//     `nama_ayah` varchar(100) NOT NULL,
-//     `nama_ibu` varchar(100) NOT NULL,
-//     `pekerjaan_ayah` varchar(50) NOT NULL,
-//     `pekerjaan_ibu` varchar(50) NOT NULL,
-//     `nohp_ayah` varchar(15) NOT NULL,
-//     `nohp_ibu` varchar(15) NOT NULL,
-//     `gaji` varchar(50) NOT NULL,
-//     `tanggungan` int(5) NOT NULL,
-//     `slip_gaji` varchar(500) NOT NULL,
-//     `kk` varchar(500) NOT NULL,
-//     `id_Sekolah` varchar(50) NOT NULL,
-//     `jurusan` varchar(50) NOT NULL,
-//     `smt1` double NOT NULL,
-//     `smt2` double NOT NULL,
-//     `smt3` double NOT NULL,
-//     `smt4` double NOT NULL,
-//     `smt5` double NOT NULL,
-//     `nilairaport` varchar(500) NOT NULL,
-//     `ijazah` varchar(500) DEFAULT NULL,
-//     `prestasi` varchar(250) DEFAULT NULL,
-//     `status_pendaftaran` varchar(50) NOT NULL,
-//     `tgl_pendaftaran` timestamp NULL DEFAULT current_timestamp()
-//   )
+{
         use HasFactory;
+        use SoftDeletes;
         protected $guarded = ['id'];
+        protected $primaryKey = 'NISN';
+        protected $fillable = ['NISN', 'nama', 'jenis_kelamin','agama','tempat_lahir','tanggal_lahir','alamat',
+    'no_kk','nama_ayah','nama_ibu','pekerjaan_ayah','pekerjaan_ibu','gaji','tanggungan','slip_gaji',
+'gelombang','jurusan','asal_sekolah','alamat_sekolah','nilai_raport','ijazah','prestasi',
+'status_pendaftaran','tgl_pendaftaran','email','no_hp','pas_foto','id_login'];
     
         public static function getDataPendaftaran()
         {

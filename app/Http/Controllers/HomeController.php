@@ -4,14 +4,16 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\pendaftaran;
+use App\Models\user;
 use App\Models\jadwal;
 use App\Models\pembayaran;
 use App\Models\pengumuman;
 use App\Models\program_studi;
+use App\Notifications\LoginNotification;
 use Maatwebsite\Excel\Facades\Excel;
-use App\Exports\PendaftaranExport;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use Session;
@@ -36,8 +38,13 @@ class HomeController extends Controller
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function index()
-    {
-        return view('home_user');
+    { 
+        if(auth()->user()){
+            $user = user::whereId(auth()->user()->id)->first();
+            auth()->user()->notify(new LoginNotification($user));
+        }
+        return view('home_user', compact('user'));
+       
     }
     public function view_input()
     {

@@ -21,6 +21,7 @@ Auth::routes();
 
 Route::get('admin/home',
     [App\Http\Controllers\AdminController::class, 'index'])->name('admin.pendaftar.jadwal.pembayaran.prodi')->middleware('is_admin');
+Route::post('admin/home/markAsRead', [AdminController::class, 'markAsRead']);
 
 Route::get('admin/tambah_pendaftar',
     [App\Http\Controllers\AdminController::class, 'view_input'])->name('admin.pendaftaran.jadwal.program_studi')->middleware('is_admin');
@@ -91,8 +92,19 @@ Route::patch('admin/prodi',
 Route::post('admin/prodi/delete/{id}', 
     [App\Http\Controllers\AdminController::class, 'delete_prodi'])->name('admin.prodi.delete')->middleware('is_admin');
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('admin/recycle_bin',
+    [App\Http\Controllers\AdminController::class, 'recycle_bin'])->name('admin.trash')->middleware('is_admin');
+Route::post('admin/recycle_bin/{id}/restore',
+    [App\Http\Controllers\AdminController::class, 'restore'])->name('admin.trash.restore')->middleware('is_admin');
+Route::post('admin/recycle_bin/restore/all',
+    [App\Http\Controllers\AdminController::class, 'restore_all'])->name('admin.trash.restore_all')->middleware('is_admin');
+ Route::post('admin/recycle_bin/{id}/delete',
+    [App\Http\Controllers\AdminController::class, 'delete'])->name('admin.trash.delete')->middleware('is_admin');
+ Route::post('admin/recycle_bin/empty',
+    [App\Http\Controllers\AdminController::class, 'empty'])->name('admin.trash.empty')->middleware('is_admin');
 
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/pendaftaran/{id}',
     [App\Http\Controllers\HomeController::class, 'view_pendaftaran'])->name('pendaftaran');
  Route::get('pendaftaran/print_bukti/{id}', 

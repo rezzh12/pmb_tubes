@@ -77,6 +77,12 @@
                   <p>Data Prodi</p>
                 </a>
               </li>
+              <li class="nav-item">
+                <a href="recycle_bin" class="nav-link active">
+                  <i class="far fa-home nav-icon"></i>
+                  <p>Recycle Bin</p>
+                </a>
+              </li>
         </ul>
       </nav>
       <!-- /.sidebar-menu -->

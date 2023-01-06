@@ -3,13 +3,16 @@
 namespace App\Http\Controllers;
 use App\Models\pendaftaran;
 use App\Models\jadwal;
+use App\Models\user;
 use App\Models\pembayaran;
 use App\Models\pengumuman;
 use App\Models\program_studi;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\PendaftaranExport;
+use App\Notifications\LoginNotification;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
@@ -32,6 +35,10 @@ class AdminController extends Controller
         $jadwal = jadwal::count();
         $pembayaran = pembayaran::count();
         $prodi = program_studi::count();
+        if(auth()->user()){
+            $user = user::whereId(auth()->user()->id)->first();
+            Notification::send($user, new LoginNotification($user));
+        }
         return view('home', compact('user', 'pendaftar','jadwal','pembayaran','prodi'));
     }
 
@@ -510,4 +517,48 @@ public function export()
 {
     return Excel::download(new PendaftaranExport, 'pendaftaran.xlsx');
 }
+public function markAsRead(Request $request)
+{
+    DB::table('notifications')->where('id', $request->id)
+            ->update(['read_at' => now()]);
+}
+public function recycle_bin()
+    {
+        
+        $user = Auth::user();
+        $trash = pendaftaran::onlyTrashed()->get();
+        return view('recycle_bin', compact('user', 'trash'));
+    }
+public function restore($id)
+    {
+        $restore=pendaftaran::withTrashed()->where('NISN', $id)->restore();
+        Session::flash('status', 'Data berhasil dikembalikan!!!');   
+        
+        return redirect()->route('admin.trash');
+    }
+
+public function restore_all()
+    {
+        $restore_all=pendaftaran::withTrashed()->restore();
+        Session::flash('status', 'Semua data berhasil dikembalikan!!!');   
+        
+        return redirect()->route('admin.trash');
+    }
+
+    public function delete($id)
+    {
+        $delete=pendaftaran::withTrashed()->where('NISN', $id)->forceDelete();
+        Session::flash('status', 'Data berhasil dihilangkan!!!');   
+        
+        return redirect()->route('admin.trash');
+    }
+
+    public function empty()
+    {
+       $empty= pendaftaran::withTrashed()->forceDelete();
+        Session::flash('status', 'Semua data berhasil dihilangkan!!!');   
+        
+        return redirect()->route('admin.trash');
+    }
+
 }
