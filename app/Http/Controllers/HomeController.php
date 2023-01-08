@@ -39,11 +39,7 @@ class HomeController extends Controller
      */
     public function index()
     { 
-        if(auth()->user()){
-            $user = user::whereId(auth()->user()->id)->first();
-            auth()->user()->notify(new LoginNotification($user));
-        }
-        return view('home_user', compact('user'));
+        return view('home_user');
        
     }
     public function view_input()

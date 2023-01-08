@@ -26,9 +26,9 @@ class pengumuman extends Model
         return $pengumuman_filter;
     }
 
-    public function pengumuman()
+    public function pendaftar()
     {
         return $this->belongsTo(pendaftaran::class, 'NISN')
-                        ->withDefault(['status_pembayaran' => 'Belum Ada Status']);
+                        ->withDefault(['status' => 'Belum Ada Status']);
     }
 }

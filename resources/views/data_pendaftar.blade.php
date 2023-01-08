@@ -8,6 +8,8 @@
             <div class="card-body">
             <a href="tambah_pendaftar" class="btn btn-primary ">Tambah Data</a>
             <a href="{{ route('admin.pendaftaran.export') }}" class="btn btn-info" target="_blank">Export</a>
+            <button type="button" class="btn btn-warning" data-toggle="modal"
+                        data-target="#importDataModal">Import</button>
                     <hr />
                     <ul class="nav nav-pills">
             <li class="nav-item">
@@ -51,7 +53,7 @@
                                 
                                 <td>
                                 <div class="btn-group" role="group" aria-label="Basic example">
-                                <a href="edit_pendaftar/{{$daftar->NISN}}" class="btn btn-success ">EDIT</a>
+                                <a href="{{ $daftar->NISN }}/edit_pendaftar" class="btn btn-success ">EDIT</a>
                                             {!! Form::open(['url' => 'admin/pendaftar/delete/'.$daftar->NISN, 'method' => 'POST']) !!}
                                         {{ Form::button('HAPUS', ['class' => 'btn btn-danger', 'onclick' => "deleteConfirmation('".$daftar->nama."')"]) }}
                                     {!! Form::close() !!}
@@ -62,6 +64,32 @@
                         @endforeach
                     </tbody>
                 </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="importDataModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Import Data</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="{{ route('admin.pendaftaran.import') }}" enctype="multipart/form-data">
+                        @csrf
+                        <div class="form-group">
+                            <label for="cover">Upload File</label>
+                            <input type="file" class="form-control" name="file" />
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-primary">Import Data</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

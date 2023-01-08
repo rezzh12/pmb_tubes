@@ -12,7 +12,8 @@ use App\Exports\PendaftaranExport;
 use App\Notifications\LoginNotification;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\email;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
@@ -35,10 +36,6 @@ class AdminController extends Controller
         $jadwal = jadwal::count();
         $pembayaran = pembayaran::count();
         $prodi = program_studi::count();
-        if(auth()->user()){
-            $user = user::whereId(auth()->user()->id)->first();
-            Notification::send($user, new LoginNotification($user));
-        }
         return view('home', compact('user', 'pendaftar','jadwal','pembayaran','prodi'));
     }
 
@@ -71,12 +68,12 @@ class AdminController extends Controller
         return view('input_daftar', compact('user', 'pendaftaran', 'program_studi', 'jadwal'));
     }
 
-    public function view_edit($NISN)
+    public function view_edit($id)
     {
         $user = Auth::user();
         $jadwal = jadwal::all();
         $program_studi = program_studi::all();
-        $pendaftaran =  pendaftaran::where('NISN',$NISN)->get();
+        $pendaftaran =  pendaftaran::find($id);
         return view('edit_daftar', compact('user', 'pendaftaran','jadwal','program_studi'));
     }
 
@@ -169,7 +166,7 @@ class AdminController extends Controller
 
     public function getDatapendaftar($NISN)
     {
-        $pendaftaran =  pendaftaran::where('NISN',$NISN)->get();
+        $pendaftaran =  pendaftaran::find($NISN)->get();
         return response()->json($Pendaftaran);
     }
 
@@ -506,6 +503,13 @@ public function pengumuman()
     
     return redirect()->route('admin.pengumuman.program_studi');
 }
+public function email($NISN){
+    $user = pendaftaran::find($NISN);
+    $receiver =  DB::table('pendaftarans')->where('NISN', $NISN)->Value('email');
+    Mail::to($receiver)->send(new email($user));
+    Session::flash('status', 'Email berhasil dikirim!!!');
+    return redirect()->route('admin.pengumuman.program_studi');
+}
 
 public function print_bukti($NISN){
     $pendaftaran =  pendaftaran::with('pembayaran')->where('NISN',$NISN)->get();
@@ -517,10 +521,18 @@ public function export()
 {
     return Excel::download(new PendaftaranExport, 'pendaftaran.xlsx');
 }
+public function import(Request $req)
+{
+    Excel::import(new PendaftaranImport, $req->file('file'));
+    Session::flash('status', 'Import data berhasil!!!');
+    return redirect()->route('admin.pendaftaran');
+}
 public function markAsRead(Request $request)
 {
     DB::table('notifications')->where('id', $request->id)
             ->update(['read_at' => now()]);
+            Session::flash('status', 'Read data berhasil!!!');
+            return redirect()->route('admin.pendaftar.jadwal.pembayaran.prodi');
 }
 public function recycle_bin()
     {

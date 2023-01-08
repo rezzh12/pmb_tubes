@@ -36,6 +36,7 @@
                                             {!! Form::open(['url' => 'admin/pengumuman/delete/'.$png->id, 'method' => 'POST']) !!}
                                         {{ Form::button('HAPUS', ['class' => 'btn btn-danger', 'onclick' => "deleteConfirmation('".$png->nama_prodi."')"]) }}
                                     {!! Form::close() !!}
+                                    <a href="pengumuman/email/{{$png->NISN}}" class="btn btn-warning">KIRIM EMAIL</a>
                                     </div>
                                 </td>
                             </tr>

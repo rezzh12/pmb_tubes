@@ -40,14 +40,22 @@ class pendaftaran extends Model
                 $pendaftaran_filter[$i]['pekerjaan_ibu'] = $pendaftaran[$i]->pekerjaan_ibu;
                 $pendaftaran_filter[$i]['gaji'] = $pendaftaran[$i]->gaji;
                 $pendaftaran_filter[$i]['tanggungan'] = $pendaftaran[$i]->tanggungan;
+                $pendaftaran_filter[$i]['slip_gaji'] = $pendaftaran[$i]->slip_gaji;
                 $pendaftaran_filter[$i]['gelombang'] = $pendaftaran[$i]->gelombang;
                 $pendaftaran_filter[$i]['jurusan'] = $pendaftaran[$i]->jurusan;
                 $pendaftaran_filter[$i]['asal_sekolah'] = $pendaftaran[$i]->asal_sekolah;
                 $pendaftaran_filter[$i]['alamat_sekolah'] = $pendaftaran[$i]->alamat_sekolah;
+                $pendaftaran_filter[$i]['nilai_raport'] = $pendaftaran[$i]->nilai_raport;
+                $pendaftaran_filter[$i]['ijazah'] = $pendaftaran[$i]->ijazah;
+                $pendaftaran_filter[$i]['prestasi'] = $pendaftaran[$i]->prestasi;
                 $pendaftaran_filter[$i]['status_pendaftaran'] = $pendaftaran[$i]->status_pendaftaran;
                 $pendaftaran_filter[$i]['tgl_pendaftaran'] = $pendaftaran[$i]->tgl_pendaftaran;
                 $pendaftaran_filter[$i]['email'] = $pendaftaran[$i]->email;
                 $pendaftaran_filter[$i]['no_hp'] = $pendaftaran[$i]->no_hp;
+                $pendaftaran_filter[$i]['pas_foto'] = $pendaftaran[$i]->pas_foto;
+                $pendaftaran_filter[$i]['id_login'] = $pendaftaran[$i]->id_login;
+                $pendaftaran_filter[$i]['created_at'] = $pendaftaran[$i]->created_at;
+                $pendaftaran_filter[$i]['updated_at'] = $pendaftaran[$i]->updated_at;
             }
     
             return $pendaftaran_filter;
@@ -57,5 +65,10 @@ class pendaftaran extends Model
         {
             return $this->belongsTo(pembayaran::class, 'NISN')
                             ->withDefault(['status_pembayaran' => 'Belum Dibayar']);
+        }
+        public function pengumuman()
+        {
+            return $this->belongsTo(pengumuman::class, 'NISN')
+                            ->withDefault(['status' => 'Belum Ada Status']);
         }
 }

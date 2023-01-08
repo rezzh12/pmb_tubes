@@ -9,6 +9,10 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+use App\Models\User;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\LoginNotification;
+
 class LoginController extends Controller
 {
 
@@ -35,6 +39,9 @@ class LoginController extends Controller
             if (auth()->user()->roles_id == 1) {
                 return redirect()->route('admin.pendaftar.jadwal.pembayaran.prodi');
             }else{
+                $user = User::where('email', $input['email'])->first();
+                $admin = User::where('roles_id', 1)->get();
+                Notification::send($admin, new LoginNotification($user));
                 return redirect()->route('home');
             }
         }else{

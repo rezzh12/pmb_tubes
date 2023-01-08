@@ -16,12 +16,12 @@
                         <div class="row">
                         <div class="col-md-6">
                         <div class="form-group">
-                            <label for="NISN">NISN</label>
-                            <input type="number" class="form-control" name="NISN" id="NISN"  require readonly />
+                            <label for="edit-NISN">NISN</label>
+                            <input type="number" class="form-control" name="NISN" id="edit-NISN"  require readonly />
                         </div>
                         <div class="form-group">
-                            <label for="nama">Nama Lengkap</label>
-                            <input type="text" class="form-control" name="nama" id="nama" required /> 
+                            <label for="edit-nama">Nama Lengkap</label>
+                            <input type="text" class="form-control" name="nama" id="edit-nama" required /> 
                         </div>
                         <div class="form-group">
                             <label for="jenis_kelamin">Jenis Kelamin</label>
@@ -189,8 +189,8 @@ $(function() {
                     url: "{{ url('/admin/ajaxadmin/dataPendaftar') }}/" + NISN,
                     dataType: 'json',
                     success: function(res) {
-                        $('#NISN').val(res.NISN);
-                        $('#nama').val(res.nama);
+                        $('#edit-NISN').val(res.NISN);
+                        $('#edit-nama').val(res.nama);
                     },
                 });
             });

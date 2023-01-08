@@ -35,14 +35,22 @@ class PendaftaranExport implements FromArray, withHeadings,ShouldAutoSize
             'Pekerjaan Ibu',
             'Gaji',
             'Tanggungan',
+            'Slip Gaji',
             'Gelombang',
             'Jurusan',
             'Asal Sekolah',
             'Alamat Sekolah',
+            'Nilai Raport ',
+            'Ijazah ',
+            'Prestasi ',
             'Status Pendaftaran',
             'Tanggal Pendaftaran',
             'Email',
             'No HP',
+            'Pas Foto',
+            'Id Login',
+            'Created At',
+            'Updated At',
         ];
     }
 }
