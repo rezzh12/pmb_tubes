@@ -40,7 +40,11 @@
   <body>
   <nav id="navbar" class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top ">
         <div class="container-fluid">
+<<<<<<< HEAD
             <a class="navbar-brand" href="#"><img src="{{asset('images/download (1).png')}}" alt="PMB TEKNIK"></a>
+=======
+            <a class="navbar-brand" href="#"><img src="{{asset('images/download (1).png')}}"></a>
+>>>>>>> 83374619599be568dbc5f1a48c465bb44e57f92f
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
             </button>
@@ -109,7 +113,7 @@
         <div class="container" data-aos="fade-up">
             <h1 class="text-center" style="padding: 50px;">Information</h1>
             <div class="row">
-                <div class="col-md-4 col-sm-12"">
+                <div class="col-md-4 col-sm-12">
                     <div class="card" data-aos="zoom-in-down">
                         <img src="{{asset('images/pmb.png')}}" class="card-img-top" alt="">
                         <div class="card-body">
@@ -118,7 +122,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4 col-sm-12"">
+                <div class="col-md-4 col-sm-12">
                     <div class="card" data-aos="zoom-in-down">
                         <img src="{{asset('images/pmb.png')}}" class="card-img-top" alt="">
                         <div class="card-body">
@@ -127,7 +131,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4 col-sm-12"">
+                <div class="col-md-4 col-sm-12">
                     <div class="card" data-aos="zoom-in-down">
                         <img src="{{asset('images/pmb.png')}}" class="card-img-top" alt="">
                         <div class="card-body">
