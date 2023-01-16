@@ -4,15 +4,20 @@ namespace App\Imports;
 
 use App\Models\pendaftaran;
 use Maatwebsite\Excel\Concerns\ToModel;
+use Illuminate\Support\Collection;
+use Maatwebsite\Excel\Concerns\ToCollection;
+use Maatwebsite\Excel\Concerns\WithHeadingRow;
+use Maatwebsite\Excel\Concerns\Importable;
+use Maatwebsite\Excel\Concerns\WithValidation;
 
-class PendaftaranImport implements ToModel
+class PendaftaranImport implements ToModel, WithHeadingRow, WithValidation
 {
     /**
     * @param array $row
     *
     * @return \Illuminate\Database\Eloquent\Model|null
     */
-    public function model(array $row)
+    public function model(array  $row)
     {
         return new pendaftaran([
             'NISN' => $row['NISN'],
@@ -46,5 +51,44 @@ class PendaftaranImport implements ToModel
             'Created At'  => $row['created_at'],
             'Updated At'  => $row['updated_at'],
         ]);
+    }
+    public function headingRow(): int
+    {
+        return 2;
+    }
+    public function rules(): array
+    {
+        return [
+            'NISN' => 'required',
+            'Nama'  =>'required',
+            'Jenis Kelamin'  => 'required',
+            'Agama'  => 'required',
+            'Tempat Lahir'  => 'required',
+            'Tanggal Lahir'  => 'required',
+            'Alamat'  =>'required',
+            'No KK'  => 'required',
+            'Nama Ayah'  => 'required',
+            'Nama Ibu'  => 'required',
+            'Pekerjaan Ayah'  => 'required',
+            'Pekerjaan Ibu' =>'required',
+            'Gaji'  => 'required',
+            'Tanggungan'  => 'required',
+            'Slip Gaji'  =>'required',
+            'Gelombang'  => 'required',
+            'Jurusan'  => 'required',
+            'Asal Sekolah'  =>'required',
+            'Alamat Sekolah'  => 'required',
+            'Nilai Raport '  => 'required',
+            'Ijazah '  => 'required',
+            'Prestasi '  => 'required',
+            'Status Pendaftaran'  => 'required',
+            'Tanggal Pendaftaran'  => 'required',
+            'Email'  => 'required',
+            'No HP'  => 'required',
+            'Pas Foto'  => 'required',
+            'Id Login'  => 'required',
+            'Created At'  => 'required',
+            'Updated At'  => 'required',
+        ];
     }
 }

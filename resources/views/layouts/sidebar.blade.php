@@ -37,7 +37,7 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
         <li class="nav-item">
                 <a href="home" class="nav-link active">
-                  <i class="far fa-users nav-icon"></i>
+                <i class="fas fa-circle nav-icon"></i>
                   <p>Dashboard</p>
                 </a>
               </li> 
@@ -45,21 +45,21 @@
                with font-awesome or any other icon font library -->
                <li class="nav-item">
                 <a href="pendaftar" class="nav-link active">
-                  <i class="far fa-address-book nav-icon"></i>
+                  <i class="fas fa-users nav-icon"></i>
                   <p>Data Pendaftar</p>
                 </a>
               </li>
 
               <li class="nav-item">
                 <a href="jadwal" class="nav-link active">
-                  <i class="far fa-users nav-icon"></i>
+                  <i class="fas fa-calendar nav-icon"></i>
                   <p>Data Jadwal</p>
                 </a>
               </li>
 
               <li class="nav-item">
                 <a href="pembayaran" class="nav-link active">
-                  <i class="far fa-university nav-icon"></i>
+                  <i class="fas fa-university nav-icon"></i>
                   <p>Data Pembayaran</p>
                 </a>
               </li>
@@ -73,13 +73,13 @@
 
               <li class="nav-item">
                 <a href="prodi" class="nav-link active">
-                  <i class="far fa-home nav-icon"></i>
+                  <i class="fas fa-building nav-icon"></i>
                   <p>Data Prodi</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="recycle_bin" class="nav-link active">
-                  <i class="far fa-home nav-icon"></i>
+                  <i class="fas fa-trash nav-icon"></i>
                   <p>Recycle Bin</p>
                 </a>
               </li>

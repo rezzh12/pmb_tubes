@@ -7,12 +7,12 @@
     <title>Email</title>
 </head>
 <body>
-    <h1>SURAT KETERANGAN TANDA LULUS</h1>
+    <h1>SURAT KETERANGAN TANDA TERIMA</h1>
     <P>Dekan Fakultas Teknik Universitas Suryakancana Kabupaten Cianjur menerangkan</P>
     <p>NISN : {{$user->NISN}}</p>
     <p>Nama : {{$user->nama}}</p>
     <p>sesuai dengan hasil tes yang telah dilaksanakan anda dinyatakan</p>
-    <h2>LULUS</h2>
+    <h2>{{$user->pengumuman->status}} di Prodi {{$user->pengumuman->prodi}}</h2>
     <p>demikian surat keterangan Tanda Lulus ini diperbuat dengan sebenar-benarnya</p>
     
 </body>

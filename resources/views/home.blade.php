@@ -97,7 +97,7 @@
 								</div>
 							</div>
                         </div>
-                        <div class="col-4">
+                        <div class="col-4 ">
 							<div class="card full-height">
 								<div class="card-header">
 									<div class="card-title">Riwayat Login</div>

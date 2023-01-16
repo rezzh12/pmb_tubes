@@ -53,11 +53,11 @@
                                 
                                 <td>
                                 <div class="btn-group" role="group" aria-label="Basic example">
-                                <a href="{{ $daftar->NISN }}/edit_pendaftar" class="btn btn-success ">EDIT</a>
+                                <a href="{{$daftar->NISN}}/edit_pendaftar" class="btn btn-success ">EDIT</a>
                                             {!! Form::open(['url' => 'admin/pendaftar/delete/'.$daftar->NISN, 'method' => 'POST']) !!}
                                         {{ Form::button('HAPUS', ['class' => 'btn btn-danger', 'onclick' => "deleteConfirmation('".$daftar->nama."')"]) }}
                                     {!! Form::close() !!}
-                                    <a href="print_bukti/{{$daftar->NISN}}" class="btn btn-primary ">Print</a>
+                                    <a href="print_bukti/{{$daftar->NISN}}" class="btn btn-primary"> Print</a>
                                     </div>
                                 </td>
                             </tr>

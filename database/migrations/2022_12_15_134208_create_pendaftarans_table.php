@@ -30,7 +30,6 @@ return new class extends Migration
             $table->string('tanggungan',10);
             $table->string('slip_gaji',255);
             $table->string('gelombang',25);
-            $table->string('tahun_masuk',25);
             $table->string('jurusan',25);
             $table->string('asal_sekolah',25);
             $table->string('alamat_sekolah',255);

@@ -20,7 +20,10 @@ return new class extends Migration
             $table->date('tgl_pembayaran');
             $table->char('NISN',25);
             $table->timestamps();
-
+            
+            $table->foreign('NISN')
+            ->references('NISN')
+            ->on('pendaftarans');
            
         });
     }

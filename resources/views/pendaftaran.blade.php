@@ -24,7 +24,7 @@
 <body>
 <nav id="navbar" class="navbar navbar-expand-lg navbar-dark bg-dark ">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#"><img src="image/WhatsApp Image 2022-09-22 at 14.37.01.jpeg" alt="Ophelia Film"></a>
+            <a class="navbar-brand" href="#"><img src="{{asset('images/download (1).png')}}" alt="PMB TEKNIK"></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
             </button>
@@ -82,7 +82,7 @@
     <p><b> TTL:</b> {{$daftar->tempat_lahir}},{{$daftar->tanggal_lahir}}</p>
     <p><b> No Hp:</b> {{$daftar->no_hp}}</p>
     <p><b> Email:</b> {{$daftar->email}}</p>
-    <p><b> No Kwitansi:</b> {{$daftar->pembayaran->no_kwitansi}}</p>
+    <p><b> No Rekening Pembayaran:</b> 085.5555.2134.7</p>
     <p><b> Biaya Yang Harus Dibayar:</b> Rp.300.000</p>
     <p><b> Status Pembayaran:</b> {{$daftar->pembayaran->status_pembayaran}}</p>
     <br />

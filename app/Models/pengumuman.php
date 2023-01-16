@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class pengumuman extends Model
 {
     use HasFactory;
+    protected $guarded = ['id'];
+    protected $primaryKey = 'id';
+    protected $fillable = ['id', 'NISN','status','prodi'];
     public static function getDataPembayaran()
     {
         $pengumuman = pengumuman::all();

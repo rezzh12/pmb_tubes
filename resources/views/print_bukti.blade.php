@@ -21,7 +21,7 @@
     <p><b> TTL:</b> {{$daftar->tempat_lahir}},{{$daftar->tanggal_lahir}}</p>
     <p><b> No Hp:</b> {{$daftar->no_hp}}</p>
     <p><b> Email:</b> {{$daftar->email}}</p>
-    <p><b> No Kwitansi:</b> {{$daftar->pembayaran->no_kwitansi}}</p>
+    <p><b> No Rekening Pembayaran:</b> 085.5555.2134.7</p>
     <p><b> Biaya Yang Harus Dibayar:</b> Rp.300.000</p>
     <p><b> Status Pembayaran:</b> {{$daftar->pembayaran->status_pembayaran}}</p>
     <br />

@@ -9,6 +9,7 @@ use App\Models\pengumuman;
 use App\Models\program_studi;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\PendaftaranExport;
+use App\Imports\PendaftaranImport;
 use App\Notifications\LoginNotification;
 
 use Illuminate\Http\Request;
@@ -73,8 +74,8 @@ class AdminController extends Controller
         $user = Auth::user();
         $jadwal = jadwal::all();
         $program_studi = program_studi::all();
-        $pendaftaran =  pendaftaran::find($id);
-        return view('edit_daftar', compact('user', 'pendaftaran','jadwal','program_studi'));
+        $pendaftaran['pendaftaran'] =  pendaftaran::findOrFail($id);
+        return view('edit_daftar', compact('user','pendaftaran','jadwal','program_studi'));
     }
 
     public function submit_pendaftar(Request $req)
@@ -164,96 +165,103 @@ class AdminController extends Controller
     return redirect()->route('admin.pendaftaran');
     }
 
-    public function getDatapendaftar($NISN)
-    {
-        $pendaftaran =  pendaftaran::find($NISN)->get();
-        return response()->json($Pendaftaran);
-    }
 
     public function update_pendaftar(Request $req)
-    { $validate = $req->validate([
-        'NISN'=> 'required|max:255',
-        'nama'=> 'required',
-        'jenis_kelamin'=> 'required',
-        'agama'=> 'required',
-        'email'=> 'required',
-        'no_hp'=> 'required',
-        'tempat_lahir'=> 'required',
-        'tanggal_lahir'=> 'required',
-        'alamat'=> 'required',
-        'gelombang'=> 'required',
-        'jurusan'=> 'required',
-        'nama_ayah'=> 'required',
-        'nama_ibu'=> 'required',
-        'pekerjaan_ayah'=> 'required',
-        'pekerjaan_Ibu'=> 'required',
-        'no_kk'=> 'required',
-        'gaji'=> 'required',
-        'tanggungan'=> 'required',
-        'asal_sekolah'=> 'required',
-        'alamat_sekolah'=> 'required',
-    ]);
-    $Pendaftaran->NISN = $req->get('NISN');
-    $Pendaftaran->nama = $req->get('nama');
-    $Pendaftaran->jenis_kelamin = $req->get('jenis_kelamin');
-    $Pendaftaran->agama = $req->get('agama');
-    $Pendaftaran->email = $req->get('email');
-    $Pendaftaran->no_hp = $req->get('no_hp');
-    $Pendaftaran->tempat_lahir = $req->get('tempat_lahir');
-    $Pendaftaran->tanggal_lahir = $req->get('tanggal_lahir');
-    $Pendaftaran->alamat = $req->get('alamat');
-    $Pendaftaran->gelombang = $req->get('gelombang');
-    $Pendaftaran->jurusan = $req->get('jurusan');
-    $Pendaftaran->nama_ayah = $req->get('nama_ayah');
-    $Pendaftaran->nama_ibu = $req->get('nama_ibu');
-    $Pendaftaran->pekerjaan_ayah = $req->get('pekerjaan_ayah');
-    $Pendaftaran->pekerjaan_Ibu = $req->get('pekerjaan_Ibu');
-    $Pendaftaran->no_kk = $req->get('no_kk');
-    $Pendaftaran->gaji = $req->get('gaji');
-    $Pendaftaran->tanggungan = $req->get('tanggungan');
-    $Pendaftaran->asal_sekolah = $req->get('asal_sekolah');
-    $Pendaftaran->alamat_sekolah = $req->get('alamat_sekolah');
-    $Pendaftaran->status_pendaftaran = 'terdaftar';
-    $Pendaftaran->tgl_pendaftaran = now();
-    if($req->hasFile('pas_foto'))
     {
-        $extension = $req->file('pas_foto')->extension();
-        $filename = 'pas_foto'.time().'.'.$extension;
-        $req->file('pas_foto')->storeAS('public/pas_foto', $filename);
-        $Pendaftaran->pas_foto = $filename;
-    }
-    if($req->hasFile('slip_gaji'))
-    {
-        $extension = $req->file('slip_gaji')->extension();
-        $filename = 'slip_gaji'.time().'.'.$extension;
-        $req->file('slip_gaji')->storeAS('public/slip_gaji', $filename);
-        $Pendaftaran->slip_gaji = $filename;
-    }
-    if($req->hasFile('nilai_raport'))
-    {
-        $extension = $req->file('nilai_raport')->extension();
-        $filename = 'nilai_raport'.time().'.'.$extension;
-        $req->file('nilai_raport')->storeAS('public/nilai_raport', $filename);
-        $Pendaftaran->nilai_raport = $filename;
-    }
-    if($req->hasFile('ijazah'))
-    {
-        $extension = $req->file('ijazah')->extension();
-        $filename = 'ijazah'.time().'.'.$extension;
-        $req->file('ijazah')->storeAS('public/ijazah', $filename);
-        $Pendaftaran->ijazah = $filename;
-    }
-    if($req->hasFile('prestasi'))
-    {
-        $extension = $req->file('prestasi')->extension();
-        $filename = 'prestasi'.time().'.'.$extension;
-        $req->file('prestasi')->storeAS('public/prestasi', $filename);
-        $Pendaftaran->prestasi = $filename;
-    }
-    $Pendaftaran->save();
-
-    Session::flash('status', 'Ubah data berhasil!!!');
-    return redirect()->route('admin.pendaftaran');
+        $Pendaftaran = Pendaftaran::find($req->get('NISN'));
+    
+        $validate = $req->validate([
+            'NISN'=> 'required|max:255',
+            'nama'=> 'required',
+            'jenis_kelamin'=> 'required',
+            'agama'=> 'required',
+            'email'=> 'required',
+            'no_hp'=> 'required',
+            'tempat_lahir'=> 'required',
+            'tanggal_lahir'=> 'required',
+            'alamat'=> 'required',
+            'gelombang'=> 'required',
+            'jurusan'=> 'required',
+            'nama_ayah'=> 'required',
+            'nama_ibu'=> 'required',
+            'pekerjaan_ayah'=> 'required',
+            'pekerjaan_Ibu'=> 'required',
+            'no_kk'=> 'required',
+            'gaji'=> 'required',
+            'tanggungan'=> 'required',
+            'asal_sekolah'=> 'required',
+            'alamat_sekolah'=> 'required',
+            'pas_foto'=> 'required',
+            'slip_gaji'=> 'required',
+            'nilai_raport'=> 'required',
+            'ijazah'=> 'required',
+        ]);
+        $Pendaftaran->NISN = $req->get('NISN');
+        $Pendaftaran->nama = $req->get('nama');
+        $Pendaftaran->jenis_kelamin = $req->get('jenis_kelamin');
+        $Pendaftaran->agama = $req->get('agama');
+        $Pendaftaran->email = $req->get('email');
+        $Pendaftaran->no_hp = $req->get('no_hp');
+        $Pendaftaran->tempat_lahir = $req->get('tempat_lahir');
+        $Pendaftaran->tanggal_lahir = $req->get('tanggal_lahir');
+        $Pendaftaran->alamat = $req->get('alamat');
+        $Pendaftaran->gelombang = $req->get('gelombang');
+        $Pendaftaran->jurusan = $req->get('jurusan');
+        $Pendaftaran->nama_ayah = $req->get('nama_ayah');
+        $Pendaftaran->nama_ibu = $req->get('nama_ibu');
+        $Pendaftaran->pekerjaan_ayah = $req->get('pekerjaan_ayah');
+        $Pendaftaran->pekerjaan_Ibu = $req->get('pekerjaan_Ibu');
+        $Pendaftaran->no_kk = $req->get('no_kk');
+        $Pendaftaran->gaji = $req->get('gaji');
+        $Pendaftaran->tanggungan = $req->get('tanggungan','orang');
+        $Pendaftaran->asal_sekolah = $req->get('asal_sekolah');
+        $Pendaftaran->alamat_sekolah = $req->get('alamat_sekolah');
+        $Pendaftaran->status_pendaftaran = 'terdaftar';
+        $Pendaftaran->tgl_pendaftaran = now();
+        if($req->hasFile('pas_foto'))
+        {
+            $extension = $req->file('pas_foto')->extension();
+            $filename = 'pas_foto'.time().'.'.$extension;
+            $req->file('pas_foto')->storeAS('public/pas_foto', $filename);
+            $Pendaftaran->pas_foto = $filename;
+            Storage::delete('public/pas_foto/'.$req->get('old_pas_foto'));
+        }
+        if($req->hasFile('slip_gaji'))
+        {
+            $extension = $req->file('slip_gaji')->extension();
+            $filename = 'slip_gaji'.time().'.'.$extension;
+            $req->file('slip_gaji')->storeAS('public/slip_gaji', $filename);
+            $Pendaftaran->slip_gaji = $filename;
+            Storage::delete('public/slip_gaji/'.$req->get('old_slip_gaji'));
+        }
+        if($req->hasFile('nilai_raport'))
+        {
+            $extension = $req->file('nilai_raport')->extension();
+            $filename = 'nilai_raport'.time().'.'.$extension;
+            $req->file('nilai_raport')->storeAS('public/nilai_raport', $filename);
+            $Pendaftaran->nilai_raport = $filename;
+            Storage::delete('public/nilai_raport/'.$req->get('old_nilai_raport'));
+        }
+        if($req->hasFile('ijazah'))
+        {
+            $extension = $req->file('ijazah')->extension();
+            $filename = 'ijazah'.time().'.'.$extension;
+            $req->file('ijazah')->storeAS('public/ijazah', $filename);
+            $Pendaftaran->ijazah = $filename;
+            Storage::delete('public/ijazah/'.$req->get('old_ijazah'));
+        }
+        if($req->hasFile('prestasi'))
+        {
+            $extension = $req->file('prestasi')->extension();
+            $filename = 'prestasi'.time().'.'.$extension;
+            $req->file('prestasi')->storeAS('public/prestasi', $filename);
+            $Pendaftaran->prestasi = $filename;
+            Storage::delete('public/prestasi/'.$req->get('old_prestasi'));
+        }
+        $Pendaftaran->save();
+    
+        Session::flash('status', 'Edit data berhasil!!!');
+        return redirect()->route('admin.pendaftaran');
     }
 
     public function delete_pendaftar($NISN)
@@ -504,7 +512,7 @@ public function pengumuman()
     return redirect()->route('admin.pengumuman.program_studi');
 }
 public function email($NISN){
-    $user = pendaftaran::find($NISN);
+    $user = pendaftaran::with('pengumuman')->find($NISN);
     $receiver =  DB::table('pendaftarans')->where('NISN', $NISN)->Value('email');
     Mail::to($receiver)->send(new email($user));
     Session::flash('status', 'Email berhasil dikirim!!!');
@@ -514,7 +522,7 @@ public function email($NISN){
 public function print_bukti($NISN){
     $pendaftaran =  pendaftaran::with('pembayaran')->where('NISN',$NISN)->get();
     $pdf = PDF::loadview('print_bukti',['pendaftarans'=>$pendaftaran]);
-    return $pdf->stream('bukti_pendaftaran.pdf');
+    return $pdf->download('bukti_pendaftaran.pdf');
 }
 
 public function export()

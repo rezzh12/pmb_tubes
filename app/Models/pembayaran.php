@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class pembayaran extends Model
 {
     use HasFactory;
+    protected $guarded = ['no_kwitansi'];
+    protected $primaryKey = 'no_kwitansi';
+    protected $fillable = ['no_kwitansi', 'status_pemabayaran','tgl_pembayaran','NISN'];
     public static function getDataPembayaran()
     {
         $pembayaran = pembayaran::all();

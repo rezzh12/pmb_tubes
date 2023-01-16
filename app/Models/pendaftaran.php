@@ -10,7 +10,7 @@ class pendaftaran extends Model
 {
         use HasFactory;
         use SoftDeletes;
-        protected $guarded = ['id'];
+        protected $guarded = ['NISN'];
         protected $primaryKey = 'NISN';
         protected $fillable = ['NISN', 'nama', 'jenis_kelamin','agama','tempat_lahir','tanggal_lahir','alamat',
     'no_kk','nama_ayah','nama_ibu','pekerjaan_ayah','pekerjaan_ibu','gaji','tanggungan','slip_gaji',
@@ -63,12 +63,17 @@ class pendaftaran extends Model
 
         public function pembayaran()
         {
-            return $this->belongsTo(pembayaran::class, 'NISN')
+            return $this->belongsTo(pembayaran::class, 'NISN','NISN')
                             ->withDefault(['status_pembayaran' => 'Belum Dibayar']);
+        }
+        public function pembayaran1()
+        {
+            return $this->belongsTo(pembayaran::class, 'NISN','NISN')
+                            ->withDefault(['no_kwitansi' => 'Belum Dibayar']);
         }
         public function pengumuman()
         {
-            return $this->belongsTo(pengumuman::class, 'NISN')
+            return $this->belongsTo(pengumuman::class, 'NISN','NISN')
                             ->withDefault(['status' => 'Belum Ada Status']);
         }
 }

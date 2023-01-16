@@ -1,27 +1,71 @@
-@extends('layouts.master')
-@section('title', 'Edit Pendaftar')
-@section('judul', 'Edit Pendaftar')
-@section('content')
-<div class="container">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pendaftaran Mahasiswa</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+</head>
+<body>
+<nav id="navbar" class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#"><img src="{{asset('images/download (1).png')}}" alt="PMB TEKNIK"></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav nav-pills ms-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                <a class="nav-link " aria-current="page" href="home">Home</a>
+                </li>
+                <li class="nav-item">
+                <a  class="nav-link " aria-current="page" href="#daftar">Daftar</a>
+                </li>
+                <li class="nav-item dropdown">
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                    {{ Auth::user()->name }}
+                                </a>
+
+                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{{ route('logout') }}"
+                                       onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                        {{ __('Logout') }}
+                                    </a>
+
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                        @csrf
+                                    </form>
+                                </div>
+                            </li>
+            </ul>
+            </div>
+        </div>
+        </nav>
+        <hr>
+        <hr>
+        <hr>
+
+        <div class="container">
     <div class="row justify-content-center">
         <div class="col-12">
             <div class="card">
                 <div class="card-header">Tambah Data Pendaftar</div>
 
-                @foreach($pendaftaran as $pd)
                 <div class="card-body">
-                <form method="post" action="{{ route('admin.pendaftaran.update') }}" enctype="multipart/form-data">
+                <form method="post" action="{{ route('admin.pendaftaran.submit') }}" enctype="multipart/form-data">
                         @csrf
-                        @method('PATCH')
                         <div class="row">
                         <div class="col-md-6">
                         <div class="form-group">
                             <label for="NISN">NISN</label>
-                            <input type="number" class="form-control" name="NISN" id="NISN" required value="{{$pd->NISN}}" readonly/>
+                            <input type="number" class="form-control" name="NISN" id="NISN" required />
                         </div>
                         <div class="form-group">
                             <label for="nama">Nama Lengkap</label>
-                            <input type="text" class="form-control" name="nama" id="nama" required value="{{$pd->nama}}"/> 
+                            <input type="text" class="form-control" name="nama" id="nama" required /> 
                         </div>
                         <div class="form-group">
                             <label for="jenis_kelamin">Jenis Kelamin</label>
@@ -32,30 +76,30 @@
                         </div>
                         <div class="form-group">
                             <label for="agama">Agama</label>
-                            <input type="text" class="form-control" name="agama" id="agama" required value="{{$pd->agama}}"/>
+                            <input type="text" class="form-control" name="agama" id="agama" required />
                         </div>
                         <div class="form-group">
                             <label for="email">Email</label>
-                            <input type="text" class="form-control" name="email" id="email" required value="{{$pd->email}}"/>
+                            <input type="text" class="form-control" name="email" id="email" required />
                         </div>
                         <div class="form-group">
                             <label for="no_hp">No HP</label>
-                            <input type="number" class="form-control" name="no_hp" id="no_hp" required value="{{$pd->no_hp}}"/>
+                            <input type="number" class="form-control" name="no_hp" id="no_hp" required />
                         </div>
                        
                         </div>
                         <div class="col-md-6">
                         <div class="form-group">
                             <label for="tempat_lahir">Tempat Lahir</label>
-                            <input type="text" class="form-control" name="tempat_lahir" id="tempat_lahir" required value="{{$pd->tempat_lahir}}"/>
+                            <input type="text" class="form-control" name="tempat_lahir" id="tempat_lahir" required />
                         </div>
                         <div class="form-group">
                             <label for="tanggal_lahir">Tanggal Lahir</label>
-                            <input type="date" class="form-control" name="tanggal_lahir" id="tanggal_lahir" required value="{{$pd->tanggal_lahir}}"/>
+                            <input type="date" class="form-control" name="tanggal_lahir" id="tanggal_lahir" required />
                         </div>
                         <div class="form-group">
                             <label for="alamat">Alamat</label>
-                            <input type="text" class="form-control" name="alamat" id="alamat" required value="{{$pd->alamat}}"/>
+                            <input type="text" class="form-control" name="alamat" id="alamat" required />
                         </div>
                         <div class="form-group">
                             <label for="gelombang">Gelombang</label>
@@ -91,36 +135,36 @@
                             
                         <div class="form-group">
                             <label for="nama_ayah">Nama Ayah</label>
-                            <input type="text" class="form-control" name="nama_ayah" id="nama_ayah" required value="{{$pd->nama_ayah}}"/>
+                            <input type="text" class="form-control" name="nama_ayah" id="nama_ayah" required />
                         </div>
                         <div class="form-group">
                             <label for="nama_ibu">Nama Ibu</label>
-                            <input type="text" class="form-control" name="nama_ibu" id="nama_ibu" required value="{{$pd->nama_ibu}}"/>
+                            <input type="text" class="form-control" name="nama_ibu" id="nama_ibu" required />
                         </div>
 
                         <div class="form-group">
                             <label for="pekerjaan_ayah">Pekerjaan Ayah</label>
-                            <input type="text" class="form-control" name="pekerjaan_ayah" id="pekerjaan_ayah" required value="{{$pd->pekerjaan_ayah}}"/>
+                            <input type="text" class="form-control" name="pekerjaan_ayah" id="pekerjaan_ayah" required />
                         </div>
                         <div class="form-group">
                             <label for="pekerjaan_Ibu">Pekerjaan Ibu</label>
-                            <input type="text" class="form-control" name="pekerjaan_Ibu" id="pekerjaan_Ibu" required value="{{$pd->pekerjaan_ibu}}"/>
+                            <input type="text" class="form-control" name="pekerjaan_Ibu" id="pekerjaan_Ibu" required />
                         </div>
 
                         </div>
                         <div class="col-md-6">
                         <div class="form-group">
                             <label for="no_kk">No KK</label>
-                            <input type="number" class="form-control" name="no_kk" id="no_kk" required value="{{$pd->no_kk}}"/>
+                            <input type="number" class="form-control" name="no_kk" id="no_kk" required />
                         </div>
                         <div class="form-group">
                             <label for="gaji">Gaji</label>
-                            <input type="number" class="form-control" name="gaji" id="gaji" required value="{{$pd->gaji}}"/>
+                            <input type="number" class="form-control" name="gaji" id="gaji" required />
                         </div>
 
                         <div class="form-group">
                             <label for="tanggungan">Tanggungan</label>
-                            <input type="number" class="form-control" name="tanggungan" id="tanggungan" required value="{{$pd->tanggungan}}"/>
+                            <input type="number" class="form-control" name="tanggungan" id="tanggungan" required />
                         </div>
 
                         <div class="form-group">
@@ -142,18 +186,19 @@
                         <div class="col-md-6">
                         <div class="form-group">
                             <label for="asal_sekolah">Asal Sekolah</label>
-                            <input type="text" class="form-control" name="asal_sekolah" id="asal_sekolah" required value="{{$pd->asal_sekolah}}"/>
+                            <input type="text" class="form-control" name="asal_sekolah" id="asal_sekolah" required />
                         </div>
                         <div class="form-group">
                             <label for="alamat_sekolah">Alamat Sekolah</label>
-                            <input type="text" class="form-control" name="alamat_sekolah" id="alamat_sekolah" required value="{{$pd->alamat_sekolah}}"/>
-                        </div>
+                            <input type="text" class="form-control" name="alamat_sekolah" id="alamat_sekolah" required />
+                        </div> 
+                        <div></div>
                         <div class="form-group">
-                        <label for="id_login">Id Login</label>
                             <select name="id_login" id="id_login" type="hidden" required>
-                                <option value="{{$pd->id_login}}">{{$pd->id_login}}</option>
+                                <option value=" {{ Auth::user()->id }}"></option>
                             </select>
                         </div>
+                       
                         </div>
                         <div class="col-md-6">
                         <div class="form-group">
@@ -166,7 +211,7 @@
                         </div>
                         <div class="form-group">
                             <label for="prestasi">Prestasi</label>
-                            <input type="file" class="form-control" name="prestasi" id="prestasi"  required />
+                            <input type="file" class="form-control" name="prestasi" id="prestasi"/>
                         </div>
                 </div>
                 
@@ -174,47 +219,33 @@
 
 
             <div class="modal-footer">
-            <input type="hidden" name="old_pas_foto" value="{{$pd->pas_foto}}" />
-            <input type="hidden" name="old_slip_gaji" value="{{$pd->slip_gaji}}" />
-            <input type="hidden" name="old_nilai_raport" value="{{$pd->nilai_raport}}" />
-            <input type="hidden" name="old_ijazah" value="{{$pd->ijazah}}" />
-            <input type="hidden" name="old_prestasi" value="{{$pd->prestasi}}" />
             <a href="{{ URL::previous() }}" class="btn btn-default">Kembali</a>
-            <button type="submit" class="btn btn-success">Update</button>
+                    <button type="submit" class="btn btn-primary">Kirim</button>
                     </form>
-                    @endforeach
                 </div>
         </div>
     </div>
 </div>
-@stop
 
-@section('js')
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+        <script>
+        AOS.init();
+        let navbar = document.getElementById('navbar');
 
+        window.addEventListener('scroll', function(){
+            let scroll = window.scrollY;
 
-        @if(session('status'))
-            Swal.fire({
-                title: 'Congratulations!',
-                text: "{{ session('status') }}",
-                icon: 'Success',
-                timer: 3000
-            })
-        @endif
-        @if($errors->any())
-            @php
-                $message = '';
-                foreach($errors->all() as $error)
-                {
-                    $message .= $error."<br/>";
-                }
-            @endphp
-            Swal.fire({
-                title: 'Error',
-                html: "{!! $message !!}",
-                icon: 'error',
-            })
-        @endif
-        </script>
-    @stop
+            if(scroll > 80){
+                navbar.classList.add('navbar-white bg-light');
+                navbar.classList.add('bg-dark-dark bg-dark');
+            
+            } else {
+                navbar.classList.remove('navbar-white bg-light');
+                navbar.classList.add('navbar-dark bg-dark');
+            }
+        });
+    </script>
+    
+</body>
+</html>

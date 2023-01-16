@@ -40,7 +40,7 @@
   <body>
   <nav id="navbar" class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top ">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#"><img src="image/WhatsApp Image 2022-09-22 at 14.37.01.jpeg" alt="Ophelia Film"></a>
+            <a class="navbar-brand" href="#"><img src="{{asset('images/download (1).png')}}" alt="PMB TEKNIK"></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
             </button>
@@ -258,7 +258,29 @@
                 navbar.classList.add('navbar-white bg-light');
                 navbar.classList.remove('navbar-dark bg-dark');
             }
-        });
+        }
+        @if(session('status'))
+            Swal.fire({
+                title: 'Congratulations!',
+                text: "{{ session('status') }}",
+                icon: 'Success',
+                timer: 3000
+            })
+        @endif
+        @if($errors->any())
+            @php
+                $message = '';
+                foreach($errors->all() as $error)
+                {
+                    $message .= $error."<br/>";
+                }
+            @endphp
+            Swal.fire({
+                title: 'Error',
+                html: "{!! $message !!}",
+                icon: 'error',
+            })
+        @endif);
     </script>
   </body>
 </html>

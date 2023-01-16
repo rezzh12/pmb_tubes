@@ -148,7 +148,8 @@ class HomeController extends Controller
     }
     public function print_bukti($id){
         $pendaftaran =  pendaftaran::with('pembayaran')->where('id_login',$id)->get();
+        $pendaftaran =  pendaftaran::with('pembayaran1')->where('id_login',$id)->get();
         $pdf = PDF::loadview('print_bukti',['pendaftarans'=>$pendaftaran]);
-        return $pdf->stream('bukti_pendaftaran.pdf');
+        return $pdf->download('bukti_pendaftaran.pdf');
     }
 }
